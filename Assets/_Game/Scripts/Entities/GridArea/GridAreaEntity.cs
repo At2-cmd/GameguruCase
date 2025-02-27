@@ -9,7 +9,7 @@ public class GridAreaEntity : MonoBehaviour
     [Inject] private ICameraController _cameraController;
     [Inject] private IUIController _uiCotroller;
     [Inject] private StarExplosionParticle.Pool _starParticlePool;
-    [SerializeField] private GridCell gridCellPrefab;
+    [Inject] private GridCell.Pool _gridCellsPool;
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
     [SerializeField] private float cellSpacing = 1.0f;
@@ -26,12 +26,6 @@ public class GridAreaEntity : MonoBehaviour
     {
         ClearGrid();
 
-        if (gridCellPrefab == null)
-        {
-            Debug.LogError("Grid Cell Prefab is not assigned!");
-            return;
-        }
-
         _gridCells = new GridCell[yDimension, xDimension];
         Vector3 startPosition = new Vector3(-(yDimension - 1) * 0.5f * cellSpacing, 0, -(xDimension - 1) * 0.5f * cellSpacing);
 
@@ -40,14 +34,7 @@ public class GridAreaEntity : MonoBehaviour
             for (int y = 0; y < xDimension; y++)
             {
                 Vector3 position = startPosition + new Vector3(x * cellSpacing, 0, y * cellSpacing);
-
-#if UNITY_EDITOR
-                GameObject cell = (GameObject)PrefabUtility.InstantiatePrefab(gridCellPrefab.gameObject, transform);
-#else
-                GameObject cell = Instantiate(gridCellPrefab.gameObject, transform);
-#endif
-                cell.transform.position = position;
-                GridCell gridCell = cell.GetComponent<GridCell>();
+                GridCell gridCell = _gridCellsPool.Spawn(position);
                 gridCell.AssignValues(x, y);
                 gridCell.Initialize(this);
                 _gridCells[x, y] = gridCell;
@@ -58,9 +45,10 @@ public class GridAreaEntity : MonoBehaviour
 
     public void ClearGrid()
     {
-        for (int i = transform.childCount - 1; i >= 0; i--)
+        if (_gridCells == null) return;
+        foreach (GridCell cell in _gridCells)
         {
-            DestroyImmediate(transform.GetChild(i).gameObject);
+            cell.Despawn();
         }
         _matchCount = 0;
         _uiCotroller.UpdateMatchCounterText(_matchCount);

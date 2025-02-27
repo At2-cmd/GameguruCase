@@ -1,7 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 public class GridCell : MonoBehaviour
 {
+    [Inject] AudioSystem _audioSystem;
     [SerializeField] private GameObject xSignObject;
     [SerializeField] private Renderer renderer;
     [SerializeField] private Material hoverMaterial;
@@ -53,6 +55,7 @@ public class GridCell : MonoBehaviour
 
         if (newState)
         {
+            _audioSystem.Play(_audioSystem.GetAudioLibrary().PinSound);
             renderer.material = selectedMaterial;
             gridArea.CheckForMatches(xPositionIndex, yPositionIndex);
         }
@@ -64,5 +67,40 @@ public class GridCell : MonoBehaviour
     {
         xSignObject.SetActive(false);
         renderer.material = _originalMaterial;
+    }
+
+    // POOL METHODS
+
+    private Pool _pool;
+
+    public void Despawn()
+    {
+        DeactivateCell();
+        _pool.Despawn(this);
+    }
+
+    private void SetPool(Pool pool)
+    {
+        _pool = pool;
+    }
+
+    private void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public class Pool : MonoMemoryPool<Vector3, GridCell>
+    {
+        protected override void OnCreated(GridCell item)
+        {
+            base.OnCreated(item);
+            item.SetPool(this);
+        }
+
+        protected override void Reinitialize(Vector3 position, GridCell item)
+        {
+            base.Reinitialize(position, item);
+            item.SetPosition(position);
+        }
     }
 }
