@@ -237,7 +237,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 853cabdf009b9db418d7520c6db5342f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -272,6 +272,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSignObject: {fileID: 5348451812340426643}
+  renderer: {fileID: 7754315760170111619}
+  hoverMaterial: {fileID: 2100000, guid: 9abc25a96dc33234c9e737506ba6f1b4, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: cfe01b3acbcac6d409402bb0850a4d9c, type: 2}
 --- !u!65 &1160200110394197330
 BoxCollider:
   m_ObjectHideFlags: 0
