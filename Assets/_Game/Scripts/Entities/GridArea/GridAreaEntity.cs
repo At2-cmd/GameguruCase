@@ -8,6 +8,7 @@ public class GridAreaEntity : MonoBehaviour
 {
     [Inject] private ICameraController _cameraController;
     [Inject] private IUIController _uiCotroller;
+    [Inject] private StarExplosionParticle.Pool _starParticlePool;
     [SerializeField] private GridCell gridCellPrefab;
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
@@ -76,6 +77,7 @@ public class GridAreaEntity : MonoBehaviour
             _uiCotroller.UpdateMatchCounterText(_matchCount);
             foreach (GridCell cell in _matchedCells)
             {
+                _starParticlePool.Spawn(cell.transform.position + Vector3.up);
                 cell.DeactivateCell();
             }
         }
