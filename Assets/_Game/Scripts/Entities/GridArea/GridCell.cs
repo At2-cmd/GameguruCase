@@ -1,23 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-    private Renderer cellRenderer;
-    private Color defaultColor;
+    [SerializeField] private GameObject xSignObject;
+    private int xPositionIndex;
+    private int yPositionIndex;
     public void Initialize()
     {
         Debug.Log("Grid Cell Initialized!");
-        cellRenderer = GetComponent<Renderer>();
-        defaultColor = cellRenderer.material.color;
     }
-    public void HighlightCell(Color color)
+    public void SetXSignStatus(bool value)
     {
-        cellRenderer.material.color = color;
+        xSignObject.SetActive(value);
     }
-    public void ResetCellColor()
+
+    public void AssignValues(int x, int y)
     {
-        cellRenderer.material.color = defaultColor;
+        xPositionIndex = x;
+        yPositionIndex = y;
     }
 }

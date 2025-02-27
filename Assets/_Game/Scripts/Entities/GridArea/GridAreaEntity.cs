@@ -9,6 +9,7 @@ public class GridAreaEntity : MonoBehaviour
     [SerializeField] private int columns = 4;
     [SerializeField] private float cellSpacing = 1.0f;
     [SerializeField] private GridCell[,] gridCells;
+
     public void InitializeGridCells()
     {
         GenerateGrid();
@@ -27,6 +28,7 @@ public class GridAreaEntity : MonoBehaviour
             Debug.LogError("Grid Cell Prefab is not assigned!");
             return;
         }
+
         gridCells = new GridCell[columns, rows];
         Vector3 startPosition = new Vector3(-(columns - 1) * 0.5f * cellSpacing, 0, -(rows - 1) * 0.5f * cellSpacing);
 
@@ -36,10 +38,14 @@ public class GridAreaEntity : MonoBehaviour
             {
                 Vector3 position = startPosition + new Vector3(x * cellSpacing, 0, y * cellSpacing);
 
-                // Instantiate and properly parent the object
+#if UNITY_EDITOR
+                GameObject cell = (GameObject)PrefabUtility.InstantiatePrefab(gridCellPrefab.gameObject, transform);
+#else
                 GameObject cell = Instantiate(gridCellPrefab.gameObject, transform);
-                cell.transform.position = position; 
+#endif
+                cell.transform.position = position;
                 gridCells[x, y] = cell.GetComponent<GridCell>();
+                cell.GetComponent<GridCell>().AssignValues(x, y);
             }
         }
     }
