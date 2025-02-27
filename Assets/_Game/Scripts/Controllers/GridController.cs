@@ -1,12 +1,17 @@
 using UnityEngine;
 using Zenject;
 
-public class GridController : MonoBehaviour, IInitializable
+public class GridController : MonoBehaviour, IInitializable, IGridController
 {
     [SerializeField] private GridAreaEntity gridAreaEntity;
 
+
     public void Initialize()
     {
-        gridAreaEntity.InitializeGridCells();
+        gridAreaEntity.Initialize();
+    }
+    public void GenerateGrid(int xDimension, int yDimension)
+    {
+        gridAreaEntity.GenerateGrid(xDimension, yDimension);
     }
 }

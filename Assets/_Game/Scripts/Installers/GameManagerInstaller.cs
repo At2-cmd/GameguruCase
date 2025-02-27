@@ -8,5 +8,6 @@ public class GameManagerInstaller : MonoInstaller
         Container.BindInterfacesTo<GameManager>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<UIController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<GridController>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesTo<CameraController>().FromComponentInHierarchy().AsSingle();
     }
 }

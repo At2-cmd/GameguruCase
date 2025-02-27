@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -6,9 +7,11 @@ public class UIController : MonoBehaviour, IInitializable, IUIController
 {
     [SerializeField] private PopupBase levelCompletedPopup;
     [SerializeField] private PopupBase levelFailedPopup;
+    [SerializeField] private TMP_Text matchCounterText;
     public void Initialize()
     {
         DisableAllPopups();
+        UpdateMatchCounterText(0);
     }
     public void DisableAllPopups()
     {
@@ -28,5 +31,10 @@ public class UIController : MonoBehaviour, IInitializable, IUIController
         DisableAllPopups();
         levelFailedPopup.SetPopupActiveness(true);
         levelFailedPopup.Initialize();
+    }
+
+    public void UpdateMatchCounterText(int matchCount)
+    {
+        matchCounterText.text = ": " + matchCount;
     }
 }
