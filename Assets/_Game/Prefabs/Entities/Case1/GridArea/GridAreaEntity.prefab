@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2557416752581829701}
   - component: {fileID: 2554799121933214089}
   m_Layer: 0
-  m_Name: GridArea
+  m_Name: GridAreaEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,12 +8,13 @@ public class GridAreaEntity : MonoBehaviour
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
     [SerializeField] private float cellSpacing = 1.0f;
-    private GridCell[,] gridCells;
+    private GridCell[,] _gridCells;
+    private List<GridCell> _matchedCells = new List<GridCell>();
 
     public void InitializeGridCells()
     {
         GenerateGrid();
-        foreach (GridCell cell in gridCells)
+        foreach (GridCell cell in _gridCells)
         {
             cell.Initialize(this);
         }
@@ -29,7 +30,7 @@ public class GridAreaEntity : MonoBehaviour
             return;
         }
 
-        gridCells = new GridCell[columns, rows];
+        _gridCells = new GridCell[columns, rows];
         Vector3 startPosition = new Vector3(-(columns - 1) * 0.5f * cellSpacing, 0, -(rows - 1) * 0.5f * cellSpacing);
 
         for (int x = 0; x < columns; x++)
@@ -46,7 +47,7 @@ public class GridAreaEntity : MonoBehaviour
                 cell.transform.position = position;
                 GridCell gridCell = cell.GetComponent<GridCell>();
                 gridCell.AssignValues(x, y);
-                gridCells[x, y] = gridCell;
+                _gridCells[x, y] = gridCell;
             }
         }
     }
@@ -61,30 +62,30 @@ public class GridAreaEntity : MonoBehaviour
 
     public void CheckForMatches(int x, int y)
     {
-        List<GridCell> matchedCells = new List<GridCell>();
-        FindConnectedCells(x, y, matchedCells);
+        _matchedCells.Clear();
+        FindConnectedCells(x, y);
 
-        if (matchedCells.Count >= 3)
+        if (_matchedCells.Count >= 3)
         {
-            foreach (GridCell cell in matchedCells)
+            foreach (GridCell cell in _matchedCells)
             {
                 cell.DeactivateCell();
             }
         }
     }
 
-    private void FindConnectedCells(int x, int y, List<GridCell> matchedCells)
+    private void FindConnectedCells(int x, int y)
     {
         if (x < 0 || x >= columns || y < 0 || y >= rows) return;
 
-        GridCell cell = gridCells[x, y];
-        if (!cell.HasXSign() || matchedCells.Contains(cell)) return;
+        GridCell cell = _gridCells[x, y];
+        if (!cell.HasXSign() || _matchedCells.Contains(cell)) return;
 
-        matchedCells.Add(cell);
+        _matchedCells.Add(cell);
 
-        FindConnectedCells(x + 1, y, matchedCells); // Right
-        FindConnectedCells(x - 1, y, matchedCells); // Left
-        FindConnectedCells(x, y + 1, matchedCells); // Up
-        FindConnectedCells(x, y - 1, matchedCells); // Down
+        FindConnectedCells(x + 1, y); // Right
+        FindConnectedCells(x - 1, y); // Left
+        FindConnectedCells(x, y + 1); // Up
+        FindConnectedCells(x, y - 1); // Down
     }
 }

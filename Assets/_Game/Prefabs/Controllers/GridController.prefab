@@ -56,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 2557416752581829700, guid: fb7470f8a3127ef4c84c9ef27b0e2613,
         type: 3}
       propertyPath: m_Name
-      value: GridArea
+      value: GridAreaEntity
       objectReference: {fileID: 0}
     - target: {fileID: 2557416752581829701, guid: fb7470f8a3127ef4c84c9ef27b0e2613,
         type: 3}
