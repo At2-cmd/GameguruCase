@@ -4,8 +4,6 @@ using Zenject;
 
 public abstract class PopupBase : MonoBehaviour
 {
-    [Inject] protected IGameManager GameManager;
-    [Inject] protected IUIController UIController;
     [Inject] protected BlackScreen BlackScreen;
     [SerializeField] private FinishPopupBoard board;
     public virtual void Initialize()
