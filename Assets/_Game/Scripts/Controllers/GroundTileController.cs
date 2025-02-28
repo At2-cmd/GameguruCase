@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GroundTileController : MonoBehaviour, IInitializable
+public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileController
 {
     [Inject] ISlicerController _slicerController;
     [SerializeField] private GroundTile groundTilePrefab;
@@ -16,19 +16,11 @@ public class GroundTileController : MonoBehaviour, IInitializable
         GenerateGroundTile();
     }
 
-    private void GenerateGroundTile()
+    public void GenerateGroundTile()
     {
         generationPosition.z += groundTileLength;
         GameObject groundTile = Instantiate(groundTilePrefab.gameObject, transform.position + generationPosition, Quaternion.identity);
         groundTile.transform.SetParent(transform);
         _slicerController.AssignCurrentSliceableTile(groundTile.GetComponent<GroundTile>());
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GenerateGroundTile();
-        }
     }
 }
