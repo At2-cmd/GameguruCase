@@ -6,6 +6,7 @@ public class GameManagerInstaller : MonoInstaller
         Container.BindInterfacesTo<EventController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<LevelLoaderController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<GameManager>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesTo<PlayerController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<UIController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<CameraController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<SlicerController>().FromComponentInHierarchy().AsSingle();

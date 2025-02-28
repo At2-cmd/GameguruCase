@@ -7,9 +7,11 @@ public class UIController : MonoBehaviour, IInitializable, IUIController
 {
     [SerializeField] private PopupBase levelCompletedPopup;
     [SerializeField] private PopupBase levelFailedPopup;
+    [SerializeField] private TapToStart tapToStart;
     public void Initialize()
     {
         DisableAllPopups();
+        tapToStart.Initialize();
     }
     public void DisableAllPopups()
     {
