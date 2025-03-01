@@ -26,6 +26,7 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         {
             _currentGeneratedGroundTile.transform.localScale = 
                 _sliceController.CurrentBackSideCube.transform.localScale;
+            _currentGeneratedGroundTile.SetYoyoMovementStatus(true);
         }
         return _currentGeneratedGroundTile;
     }

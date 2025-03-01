@@ -14,6 +14,7 @@ public class TouchInputController : MonoBehaviour, IInitializable
         if (Input.GetMouseButtonDown(0))
         {
             _sliceController.Slice();
+            _groundTileController.CurrentGroundTile.SetYoyoMovementStatus(false);
             _sliceController.AssignBackSideCube(_groundTileController.CurrentGroundTile);
             _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
         }

@@ -5,6 +5,7 @@ public class GroundTile : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Rigidbody rigidbody;
+    [SerializeField] private TileYoyoMovement tileYoyoMovement;
     public float Length => meshRenderer.bounds.size.z;
     private Vector3 _defaultScale;
     private void Initialize()
@@ -22,6 +23,19 @@ public class GroundTile : MonoBehaviour
         SetPosition(Vector3.zero);
         transform.rotation = Quaternion.identity;
         transform.localScale = _defaultScale;
+        SetYoyoMovementStatus(false);
+    }
+
+    public void SetYoyoMovementStatus(bool value)
+    {
+        if (value)
+        {
+            tileYoyoMovement.StartYoyoMovement();
+        }
+        else
+        {
+            tileYoyoMovement.StopYoyoMovement();
+        }
     }
 
     // POOL Methods
