@@ -8,7 +8,7 @@ public class TouchInputController : MonoBehaviour, IInitializable
     [Inject] private IPlayerController _playerController;
     public void Initialize()
     {
-        _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
+        
     }
     private void Update()
     {

@@ -18,7 +18,6 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
     {
         Subscribe();
         GenerateGroundTile();
-        _sliceController.AssignBackSideCube(_currentGeneratedGroundTile);
     }
 
     private void OnDestroy()
