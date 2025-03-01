@@ -352,41 +352,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9182013245261032554, guid: c9e5ee723295ff3499dd9b432235e378,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -476,6 +441,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6402309366506148389, guid: daeadcd26260a8249ad2cb5420c3a3d8,
         type: 3}
+    - target: {fileID: 4944349610104267703, guid: dae316c9388463e4a95ea2cda4d59626,
+        type: 3}
+      propertyPath: tileColorsDataList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944349610104267703, guid: dae316c9388463e4a95ea2cda4d59626,
+        type: 3}
+      propertyPath: tileColorsDataList.Array.data[0].tileColorsForLevel.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944349610104267703, guid: dae316c9388463e4a95ea2cda4d59626,
+        type: 3}
+      propertyPath: tileColorsDataList.Array.data[1].tileColorsForLevel.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944349610104267703, guid: dae316c9388463e4a95ea2cda4d59626,
+        type: 3}
+      propertyPath: tileColorsDataList.Array.data[2].tileColorsForLevel.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7714925840527635960, guid: dae316c9388463e4a95ea2cda4d59626,
         type: 3}
       propertyPath: m_Name

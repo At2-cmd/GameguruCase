@@ -6,13 +6,23 @@ public class GroundTile : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private TileYoyoMovement tileYoyoMovement;
+    private Vector3 _defaultScale;
+    private Color _defaultColor;
+    private MaterialPropertyBlock _materialPropertyBlock;
+    private static readonly int ColorProperty = Shader.PropertyToID("_BaseColor");
     public float Length => meshRenderer.bounds.size.z;
     public float Width => meshRenderer.bounds.size.x;
-
-    private Vector3 _defaultScale;
     private void Initialize()
     {
+        _defaultColor = meshRenderer.material.color;
         _defaultScale = transform.localScale;
+        _materialPropertyBlock = new MaterialPropertyBlock();
+    }
+    public void SetColor(Color newColor)
+    {
+        meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+        _materialPropertyBlock.SetColor(ColorProperty, newColor);
+        meshRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 
     public void SetRigidBodyKinematicStatus(bool isKinematic)
@@ -25,6 +35,7 @@ public class GroundTile : MonoBehaviour
         SetPosition(Vector3.zero);
         transform.rotation = Quaternion.identity;
         transform.localScale = _defaultScale;
+        SetColor(_defaultColor);
         SetYoyoMovementStatus(false);
     }
 

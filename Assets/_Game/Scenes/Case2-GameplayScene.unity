@@ -7001,6 +7001,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224924359598443080, guid: 06faae5dba1f84b49a62ca1dbcae0243,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 333272423439041691, guid: 06faae5dba1f84b49a62ca1dbcae0243,
         type: 3}
       propertyPath: m_Name

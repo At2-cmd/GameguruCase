@@ -44,4 +44,9 @@ public class LevelLoaderController : MonoBehaviour, IInitializable, ILevelLoader
     {
         return levelIndex % (levelDatas.Count);
     }
+
+    public TileColorData GetTileColorsData()
+    {
+        return levelDatas[_loopedLevelIndex].TileColorsDataList;
+    }
 }

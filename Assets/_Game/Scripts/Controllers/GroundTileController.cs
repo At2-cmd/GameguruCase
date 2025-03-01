@@ -7,6 +7,7 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
 {
     [Inject] GroundTile.Pool _groundTilesPool;
     [Inject] ISlicerController _sliceController;
+    [Inject] ILevelDataProvider _levelDataProvider;
     private Vector3 generationPosition;
     private GroundTile _currentGeneratedGroundTile;
     private float _generationXOffset = 2.5f;
@@ -61,9 +62,10 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         generationPosition.z += _currentGeneratedGroundTile.Length;
         generationPosition.x = _generationXOffset * (_generatedTileCount % 2 == 0 ? 1 : -1);
         _currentGeneratedGroundTile.transform.SetParent(transform);
+        AssignTileColor();
         if (_sliceController.CurrentBackSideCube != null)
         {
-            _currentGeneratedGroundTile.transform.localScale = 
+            _currentGeneratedGroundTile.transform.localScale =
                 _sliceController.CurrentBackSideCube.transform.localScale;
             _currentGeneratedGroundTile.SetYoyoTarget(generationPosition.x);
             _currentGeneratedGroundTile.SetYoyoMovementStatus(true);
@@ -71,5 +73,11 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         _generatedGroundTiles.Add(_currentGeneratedGroundTile);
         _generatedTileCount++;
         return _currentGeneratedGroundTile;
+    }
+
+    private void AssignTileColor()
+    {
+        _currentGeneratedGroundTile.SetColor(_levelDataProvider.GetTileColorsData().TileColorsForLevel[_generatedTileCount %
+            _levelDataProvider.GetTileColorsData().TileColorsForLevel.Count]);
     }
 }
