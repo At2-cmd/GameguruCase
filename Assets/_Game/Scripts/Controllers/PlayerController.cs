@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 {
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerAnimation playerAnimation;
+
+    public Transform PlayerTransform => playerMovement.transform;
+
     public void Initialize()
     {
         playerMovement.Initialize();
@@ -35,10 +38,10 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
         PlayAnim(AnimationState.Idle);
     }
 
-    public void MovePlayerToLastTile(Vector3 lastTilePosition)
+    public void MovePlayerToPosition(Vector3 lastTilePosition, Action onCompleteCallBack = null)
     {
         PlayAnim(AnimationState.Run);
-        playerMovement.Move(lastTilePosition, () => PlayAnim(AnimationState.Idle));
+        playerMovement.Move(lastTilePosition, () => onCompleteCallBack?.Invoke());
     }
 
     public void PlayAnim(AnimationState animState)

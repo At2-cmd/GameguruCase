@@ -42,8 +42,8 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         {
             groundTile.Despawn();
         }
-        ResetValues();
         _sliceController.ResetSlicer();
+        ResetValues();
         GenerateGroundTile();
     }
 

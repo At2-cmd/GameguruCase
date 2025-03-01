@@ -8277,6 +8277,11 @@ PrefabInstance:
       propertyPath: levelCompletedPopup
       value: 
       objectReference: {fileID: 2484800276088460936}
+    - target: {fileID: 5498471351802289410, guid: 4444cbd9cdeb34a439526310e2ecfdc2,
+        type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5893994771074450398, guid: 4444cbd9cdeb34a439526310e2ecfdc2,
         type: 3}
       propertyPath: leftMeshSlicer

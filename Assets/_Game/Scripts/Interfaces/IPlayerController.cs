@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 public interface IPlayerController
 {
-    void MovePlayerToLastTile(Vector3 lastTilePosition);
+    Transform PlayerTransform { get; }
+    void MovePlayerToPosition(Vector3 position, Action onCompleteCallBack = null);
     void PlayAnim(AnimationState animState);
 }

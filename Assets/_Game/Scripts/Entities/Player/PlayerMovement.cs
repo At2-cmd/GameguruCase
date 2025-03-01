@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveDuration;
+    [SerializeField] private float movementSpeed;
     private Tweener _moveTween;
     public void Initialize()
     {
@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public void Move(Vector3 lastTilePosition, Action onMovementCompleted = null)
     {
         _moveTween?.Kill();
-        _moveTween = transform.DOMove(lastTilePosition, moveDuration).SetEase(Ease.Linear).OnComplete(() => 
+        _moveTween = transform.DOMove(lastTilePosition, movementSpeed).SetSpeedBased(true).SetEase(Ease.Linear).OnComplete(() => 
         {
             onMovementCompleted?.Invoke();
         });

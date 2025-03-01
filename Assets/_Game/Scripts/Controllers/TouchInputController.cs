@@ -20,12 +20,13 @@ public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputCo
             bool canPerformSlice = _sliceController.Slice();
             if (!canPerformSlice)
             {
-                CanUserGiveInput = false;
                 _gameManager.OnGameFailed();
+                CanUserGiveInput = false;
                 return;
             }
             _groundTileController.CurrentGroundTile.SetYoyoMovementStatus(false);
-            _playerController.MovePlayerToLastTile(_groundTileController.CurrentGroundTile.transform.position);
+            _playerController.MovePlayerToPosition(_groundTileController.CurrentGroundTile.transform.position,
+                () => _playerController.PlayAnim(AnimationState.Idle));
             _sliceController.AssignBackSideCube(_groundTileController.CurrentGroundTile);
             _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
         }
