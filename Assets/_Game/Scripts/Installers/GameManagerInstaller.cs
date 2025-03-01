@@ -12,5 +12,6 @@ public class GameManagerInstaller : MonoInstaller
         Container.BindInterfacesTo<GroundTileController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<SliceController>().FromComponentInHierarchy().AsSingle();
         Container.BindInterfacesTo<TouchInputController>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesTo<FinishController>().FromComponentInHierarchy().AsSingle();
     }
 }

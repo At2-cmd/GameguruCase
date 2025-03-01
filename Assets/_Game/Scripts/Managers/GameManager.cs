@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour, IInitializable, IGameManager
     public void OnGameSuccessed()
     {
         DOTween.KillAll();
-        _uiController.ShowLevelCompletedPopup();
+        DOVirtual.DelayedCall(2, _uiController.ShowLevelCompletedPopup);
         _playerController.PlayAnim(AnimationState.Dance);
+        _playerController.RotateCamReferencePoint();
     }
 }

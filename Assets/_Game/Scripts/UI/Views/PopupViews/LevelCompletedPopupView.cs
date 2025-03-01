@@ -1,4 +1,5 @@
 using _GameData.Scripts.Managers;
+using DG.Tweening;
 
 public class LevelCompletedPopupView : PopupBase
 {
@@ -12,6 +13,7 @@ public class LevelCompletedPopupView : PopupBase
         SetPopupActiveness(false);
         BlackScreen.Open(() =>
         {
+            DOTween.KillAll();
             EventController.Instance.RaiseLevelProceedButtonClicked();
             BlackScreen.Close();
         });

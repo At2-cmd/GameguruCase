@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 
     private void OnLevelProceedButtonClickedHandler()
     {
-        playerMovement.transform.DOKill();
         playerMovement.transform.position = Vector3.zero;
+        camFollowReferenceTransform.rotation = Quaternion.identity;
         PlayAnim(AnimationState.Idle);
     }
 
@@ -50,5 +50,12 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
     public void PlayAnim(AnimationState animState)
     {
         playerAnimation.PlayAnim(animState);
+    }
+
+    public void RotateCamReferencePoint()
+    {
+        camFollowReferenceTransform.DORotate(new Vector3(0, 360, 0), 5f, RotateMode.FastBeyond360)
+                 .SetLoops(-1, LoopType.Restart)
+                 .SetEase(Ease.Linear);
     }
 }

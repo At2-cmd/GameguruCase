@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Zenject;
 public class LevelFailedPopupView : PopupBase
 {
@@ -10,6 +11,7 @@ public class LevelFailedPopupView : PopupBase
         SetPopupActiveness(false);
         BlackScreen.Open(() => 
         {
+            DOTween.KillAll();
             EventController.Instance.RaiseLevelProceedButtonClicked();
             BlackScreen.Close();
         });
