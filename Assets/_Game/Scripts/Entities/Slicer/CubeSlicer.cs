@@ -87,4 +87,10 @@ public class CubeSlicer : MonoBehaviour
     {
         frontCube = forwardSideCube.transform;
     }
+
+    public void ResetSlicer()
+    {
+        backCube = null;
+        frontCube = null;
+    }
 }

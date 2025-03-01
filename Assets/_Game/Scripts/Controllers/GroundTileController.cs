@@ -42,7 +42,17 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         {
             groundTile.Despawn();
         }
+        ResetValues();
+        _sliceController.ResetSlicer();
+        GenerateGroundTile();
+    }
+
+    private void ResetValues()
+    {
         _generatedGroundTiles.Clear();
+        generationPosition = Vector3.zero;
+        _generatedTileCount = 0;
+        _currentGeneratedGroundTile = null;
     }
 
     public GroundTile GenerateGroundTile()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +11,7 @@ public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputCo
 
     public bool CanUserGiveInput { get; set; }
 
-    public void Initialize() 
-    {
-    }
+    public void Initialize() {}
 
     private void Update()
     {

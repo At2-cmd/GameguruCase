@@ -22,12 +22,18 @@ public class SliceController : MonoBehaviour, IInitializable, ISlicerController
     private void Subscribe()
     {
         EventController.Instance.OnGameStarted += OnGameStartedHandler;
+        EventController.Instance.OnLevelProceedButtonClicked += OnLevelProceedButtonClickedHandler;
     }
 
     private void Unsubscribe()
     {
         EventController.Instance.OnGameStarted -= OnGameStartedHandler;
+        EventController.Instance.OnLevelProceedButtonClicked -= OnLevelProceedButtonClickedHandler;
+    }
 
+    private void OnLevelProceedButtonClickedHandler()
+    {
+        AssignBackSideCube(_groundTileController.CurrentGroundTile);
     }
 
     private void OnGameStartedHandler()
@@ -47,5 +53,10 @@ public class SliceController : MonoBehaviour, IInitializable, ISlicerController
     public bool Slice()
     {
         return cubeSlicer.PerformSliceOperation();
+    }
+
+    public void ResetSlicer()
+    {
+        cubeSlicer.ResetSlicer();
     }
 }
