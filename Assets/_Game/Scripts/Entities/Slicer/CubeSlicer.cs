@@ -14,11 +14,7 @@ public class CubeSlicer : MonoBehaviour
     {
         float frontXMin, frontXMax, backXMin, backXMax;
         CalculateBounds(out frontXMin, out frontXMax, out backXMin, out backXMax);
-
-        if (frontXMin < backXMin || frontXMax > backXMax)
-        {
-            SliceFrontCube(frontXMin, frontXMax, backXMin, backXMax);
-        }
+        SliceFrontCube(frontXMin, frontXMax, backXMin, backXMax);
     }
 
     void CalculateBounds(out float frontXMin, out float frontXMax, out float backXMin, out float backXMax)
@@ -35,22 +31,49 @@ public class CubeSlicer : MonoBehaviour
         float overlapEnd = Mathf.Min(frontXMax, backXMax);
         float overlapSize = overlapEnd - overlapStart;
 
-        frontCube.position = new Vector3(overlapStart + overlapSize / 2, frontCube.position.y, frontCube.position.z);
-        frontCube.localScale = new Vector3(overlapSize, frontCube.localScale.y, frontCube.localScale.z);
-
-        CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, overlapSize);
+        if (overlapSize > 0)
+        {
+            frontCube.position = new Vector3(overlapStart + overlapSize / 2, frontCube.position.y, frontCube.position.z);
+            frontCube.localScale = new Vector3(overlapSize, frontCube.localScale.y, frontCube.localScale.z);
+            CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, overlapSize);
+        }
+        else
+        {
+            Debug.Log("No overlap detected. Slicing and making the front cube fall.");
+            CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, 0);
+            frontCube.localScale = Vector3.zero;
+        }
     }
 
     void CreateExcessPart(float frontXMin, float frontXMax, float backXMin, float backXMax, float overlapSize)
     {
-        float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
-        if (excessSize > 0.01f)
+        if (overlapSize > 0)
         {
-            float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
-            GroundTile excessTile = groundTilePool.Spawn(new Vector3(excessX, frontCube.position.y, frontCube.position.z));
-            excessTile.transform.localScale = new Vector3(excessSize, frontCube.localScale.y, frontCube.localScale.z);
+            float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
 
-            excessTile.SetRigidBodyKinematicStatus(false);
+            if (excessSize > 0.01f)
+            {
+                float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
+
+                GroundTile excessTile = groundTilePool.Spawn(new Vector3(excessX, frontCube.position.y, frontCube.position.z));
+                excessTile.transform.localScale = new Vector3(excessSize, frontCube.localScale.y, frontCube.localScale.z);
+                excessTile.SetRigidBodyKinematicStatus(false);
+            }
+        }
+        else
+        {
+            float slicedSize = Mathf.Abs(frontXMax - frontXMin);
+            GroundTile slicedPart = groundTilePool.Spawn(new Vector3((frontXMin + frontXMax) / 2, frontCube.position.y, frontCube.position.z));
+
+            slicedPart.transform.localScale = new Vector3(slicedSize, frontCube.localScale.y, frontCube.localScale.z);
+            slicedPart.SetRigidBodyKinematicStatus(false);
+
+            Rigidbody rb = slicedPart.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
         }
     }
 
@@ -58,7 +81,6 @@ public class CubeSlicer : MonoBehaviour
     {
         backCube = backSideCube.transform;
     }
-
     public void SetForwardSideCube(GroundTile forwardSideCube)
     {
         frontCube = forwardSideCube.transform;
