@@ -7,7 +7,8 @@ public class CubeSlicer : MonoBehaviour
     [Inject] GroundTile.Pool groundTilePool;
     private Transform frontCube;
     private Transform backCube;
-
+    public Transform BackSideCube => backCube;
+    public Transform ForwardSideCube => frontCube;
 
     public void PerformSliceOperation()
     {

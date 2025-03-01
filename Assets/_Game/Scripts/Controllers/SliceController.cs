@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SliceController : MonoBehaviour, ISlicerController
 {
     [SerializeField] private CubeSlicer cubeSlicer;
+
+    public Transform CurrentBackSideCube => cubeSlicer.BackSideCube;
+
+    public Transform CurrentForwardSideCube => cubeSlicer.ForwardSideCube;
 
     public void AssignBackSideCube(GroundTile backSideCube)
     {

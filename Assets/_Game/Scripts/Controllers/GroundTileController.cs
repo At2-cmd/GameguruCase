@@ -22,6 +22,11 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
         _currentGeneratedGroundTile = _groundTilesPool.Spawn(transform.position + generationPosition);
         generationPosition.z += _currentGeneratedGroundTile.Length;
         _currentGeneratedGroundTile.transform.SetParent(transform);
+        if (_sliceController.CurrentBackSideCube != null)
+        {
+            _currentGeneratedGroundTile.transform.localScale = 
+                _sliceController.CurrentBackSideCube.transform.localScale;
+        }
         return _currentGeneratedGroundTile;
     }
 }
