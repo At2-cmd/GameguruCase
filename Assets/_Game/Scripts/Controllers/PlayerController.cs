@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 {
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerAnimation playerAnimation;
+    [SerializeField] private Transform camFollowReferenceTransform;
 
     public Transform PlayerTransform => playerMovement.transform;
 
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 
     private void OnLevelProceedButtonClickedHandler()
     {
+        playerMovement.transform.DOKill();
         playerMovement.transform.position = Vector3.zero;
         PlayAnim(AnimationState.Idle);
     }
