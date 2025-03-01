@@ -10,14 +10,14 @@ public class CubeSlicer : MonoBehaviour
     public Transform BackSideCube => backCube;
     public Transform ForwardSideCube => frontCube;
 
-    public void PerformSliceOperation()
+    public bool PerformSliceOperation()
     {
         float frontXMin, frontXMax, backXMin, backXMax;
         CalculateBounds(out frontXMin, out frontXMax, out backXMin, out backXMax);
-        SliceFrontCube(frontXMin, frontXMax, backXMin, backXMax);
+        return SliceFrontCube(frontXMin, frontXMax, backXMin, backXMax);
     }
 
-    void CalculateBounds(out float frontXMin, out float frontXMax, out float backXMin, out float backXMax)
+    private void CalculateBounds(out float frontXMin, out float frontXMax, out float backXMin, out float backXMax)
     {
         frontXMin = frontCube.position.x - frontCube.localScale.x / 2;
         frontXMax = frontCube.position.x + frontCube.localScale.x / 2;
@@ -25,7 +25,7 @@ public class CubeSlicer : MonoBehaviour
         backXMax = backCube.position.x + backCube.localScale.x / 2;
     }
 
-    void SliceFrontCube(float frontXMin, float frontXMax, float backXMin, float backXMax)
+    private bool SliceFrontCube(float frontXMin, float frontXMax, float backXMin, float backXMax)
     {
         float overlapStart = Mathf.Max(frontXMin, backXMin);
         float overlapEnd = Mathf.Min(frontXMax, backXMax);
@@ -36,12 +36,14 @@ public class CubeSlicer : MonoBehaviour
             frontCube.position = new Vector3(overlapStart + overlapSize / 2, frontCube.position.y, frontCube.position.z);
             frontCube.localScale = new Vector3(overlapSize, frontCube.localScale.y, frontCube.localScale.z);
             CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, overlapSize);
+            return true;
         }
         else
         {
             Debug.Log("No overlap detected. Slicing and making the front cube fall.");
             CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, 0);
             frontCube.localScale = Vector3.zero;
+            return false;
         }
     }
 

@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 
     private void OnLevelProceedButtonClickedHandler()
     {
+        playerMovement.transform.position = Vector3.zero;
         PlayAnim(AnimationState.Idle);
-        transform.position = Vector3.zero;
     }
 
     public void MovePlayerToLastTile(Vector3 lastTilePosition)

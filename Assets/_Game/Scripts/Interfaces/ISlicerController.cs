@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface ISlicerController
 {
-    void Slice();
+    bool Slice();
     void AssignBackSideCube(GroundTile backSideCube);
     void AssignForwardSideCube(GroundTile forwardSideCube);
     Transform CurrentBackSideCube { get; }

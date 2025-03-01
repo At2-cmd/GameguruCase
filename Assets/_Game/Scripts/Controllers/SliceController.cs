@@ -44,8 +44,8 @@ public class SliceController : MonoBehaviour, IInitializable, ISlicerController
         cubeSlicer.SetForwardSideCube(backSideCube);
     }
 
-    public void Slice()
+    public bool Slice()
     {
-        cubeSlicer.PerformSliceOperation();
+        return cubeSlicer.PerformSliceOperation();
     }
 }

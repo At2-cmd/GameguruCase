@@ -3,6 +3,7 @@ using Zenject;
 
 public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputController
 {
+    [Inject] IGameManager _gameManager;
     [Inject] private IGroundTileController _groundTileController;
     [Inject] private ISlicerController _sliceController;
     [Inject] private IPlayerController _playerController;
@@ -17,7 +18,13 @@ public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputCo
     {
         if (Input.GetMouseButtonDown(0) && CanUserGiveInput)
         {
-            _sliceController.Slice();
+            bool canPerformSlice = _sliceController.Slice();
+            if (!canPerformSlice)
+            {
+                CanUserGiveInput = false;
+                _gameManager.OnGameFailed();
+                return;
+            }
             _groundTileController.CurrentGroundTile.SetYoyoMovementStatus(false);
             _playerController.MovePlayerToLastTile(_groundTileController.CurrentGroundTile.transform.position);
             _sliceController.AssignBackSideCube(_groundTileController.CurrentGroundTile);
