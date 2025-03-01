@@ -4,6 +4,7 @@ using Zenject;
 public class PoolInstaller : MonoInstaller
 {
     [SerializeField] private StarExplosionParticle starParticlePrefab;
+    [SerializeField] private GroundTile groundTilePrefab;
     public override void InstallBindings()
     {
         
@@ -12,5 +13,11 @@ public class PoolInstaller : MonoInstaller
                 .ExpandByDoubling()
                 .FromComponentInNewPrefab(starParticlePrefab)
                 .UnderTransformGroup("StarExplosionParticles");
+        
+        Container.BindMemoryPool<GroundTile, GroundTile.Pool>()
+                .WithInitialSize(5)
+                .ExpandByDoubling()
+                .FromComponentInNewPrefab(groundTilePrefab)
+                .UnderTransformGroup("GroundTiles");
     }
 }

@@ -8,7 +8,6 @@ public class TouchInputController : MonoBehaviour, IInitializable
     {
 
     }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
