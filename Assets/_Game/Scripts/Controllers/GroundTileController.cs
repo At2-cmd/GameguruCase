@@ -6,17 +6,22 @@ using Zenject;
 public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileController
 {
     [Inject] GroundTile.Pool _groundTilesPool;
+    [Inject] ISlicerController _sliceController;
     private Vector3 generationPosition;
+    private GroundTile _currentGeneratedGroundTile;
+    public GroundTile CurrentGroundTile => _currentGeneratedGroundTile;
 
     public void Initialize()
     {
         GenerateGroundTile();
+        _sliceController.AssignBackSideCube(_currentGeneratedGroundTile);
     }
 
-    public void GenerateGroundTile()
+    public GroundTile GenerateGroundTile()
     {
-        GroundTile groundTile = _groundTilesPool.Spawn(transform.position + generationPosition);
-        generationPosition.z += groundTile.Length;
-        groundTile.transform.SetParent(transform);
+        _currentGeneratedGroundTile = _groundTilesPool.Spawn(transform.position + generationPosition);
+        generationPosition.z += _currentGeneratedGroundTile.Length;
+        _currentGeneratedGroundTile.transform.SetParent(transform);
+        return _currentGeneratedGroundTile;
     }
 }

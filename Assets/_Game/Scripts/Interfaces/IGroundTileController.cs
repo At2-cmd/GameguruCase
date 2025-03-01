@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public interface IGroundTileController
 {
-    void GenerateGroundTile();
+    GroundTile GenerateGroundTile();
+    GroundTile CurrentGroundTile { get; }
 }

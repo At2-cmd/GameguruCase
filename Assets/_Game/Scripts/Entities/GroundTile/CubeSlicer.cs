@@ -1,20 +1,15 @@
+using System;
 using UnityEngine;
+using Zenject;
 
 public class CubeSlicer : MonoBehaviour
 {
-    public GameObject cubePrefab;
-    public Transform frontCube;
-    public Transform backCube;
+    [Inject] GroundTile.Pool groundTilePool;
+    private Transform frontCube;
+    private Transform backCube;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SliceCube();
-        }
-    }
 
-    void SliceCube()
+    public void PerformSliceOperation()
     {
         float frontXMin, frontXMax, backXMin, backXMax;
         CalculateBounds(out frontXMin, out frontXMax, out backXMin, out backXMax);
@@ -51,11 +46,20 @@ public class CubeSlicer : MonoBehaviour
         if (excessSize > 0.01f)
         {
             float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
-            GameObject excessCube = Instantiate(cubePrefab, new Vector3(excessX, frontCube.position.y, frontCube.position.z), Quaternion.identity);
-            excessCube.transform.localScale = new Vector3(excessSize, frontCube.localScale.y, frontCube.localScale.z);
+            GroundTile excessTile = groundTilePool.Spawn(new Vector3(excessX, frontCube.position.y, frontCube.position.z));
+            excessTile.transform.localScale = new Vector3(excessSize, frontCube.localScale.y, frontCube.localScale.z);
 
-            Rigidbody rb = excessCube.AddComponent<Rigidbody>();
-            rb.mass = 1f;
+            excessTile.SetRigidBodyKinematicStatus(false);
         }
+    }
+
+    public void SetBackSideCube(GroundTile backSideCube)
+    {
+        backCube = backSideCube.transform;
+    }
+
+    public void SetForwardSideCube(GroundTile forwardSideCube)
+    {
+        frontCube = forwardSideCube.transform;
     }
 }

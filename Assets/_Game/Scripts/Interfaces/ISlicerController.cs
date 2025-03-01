@@ -1,5 +1,6 @@
 public interface ISlicerController
 {
     void Slice();
-    void AssignCurrentSliceableTile(GroundTile currentTile);
+    void AssignBackSideCube(GroundTile backSideCube);
+    void AssignForwardSideCube(GroundTile forwardSideCube);
 }

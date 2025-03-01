@@ -4,13 +4,32 @@ using Zenject;
 public class GroundTile : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private Rigidbody rigidbody;
     public float Length => meshRenderer.bounds.size.z;
+    private Vector3 _defaultScale;
+    private void Initialize()
+    {
+        _defaultScale = transform.localScale;
+    }
+
+    public void SetRigidBodyKinematicStatus(bool isKinematic)
+    {
+        rigidbody.isKinematic = isKinematic;
+    }
+    private void OnDespawned()
+    {
+        SetRigidBodyKinematicStatus(true);
+        SetPosition(Vector3.zero);
+        transform.rotation = Quaternion.identity;
+        transform.localScale = _defaultScale;
+    }
 
     // POOL Methods
 
     private Pool _pool;
     public void Despawn()
     {
+        OnDespawned();
         _pool.Despawn(this);
     }
 
@@ -30,21 +49,7 @@ public class GroundTile : MonoBehaviour
         {
             base.OnCreated(item);
             item.SetPool(this);
-        }
-
-        protected override void OnDespawned(GroundTile item)
-        {
-            base.OnDespawned(item);
-        }
-
-        protected override void OnDestroyed(GroundTile item)
-        {
-            base.OnDestroyed(item);
-        }
-
-        protected override void OnSpawned(GroundTile item)
-        {
-            base.OnSpawned(item);
+            item.Initialize();
         }
 
         protected override void Reinitialize(Vector3 position, GroundTile item)
