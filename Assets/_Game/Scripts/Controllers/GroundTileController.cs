@@ -9,6 +9,8 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
     [Inject] ISlicerController _sliceController;
     private Vector3 generationPosition;
     private GroundTile _currentGeneratedGroundTile;
+    private float _generationXOffset = 2.5f;
+    private int _generatedTileCount;
     public GroundTile CurrentGroundTile => _currentGeneratedGroundTile;
 
     public void Initialize()
@@ -21,13 +23,16 @@ public class GroundTileController : MonoBehaviour, IInitializable, IGroundTileCo
     {
         _currentGeneratedGroundTile = _groundTilesPool.Spawn(transform.position + generationPosition);
         generationPosition.z += _currentGeneratedGroundTile.Length;
+        generationPosition.x = _generationXOffset * (_generatedTileCount % 2 == 0 ? 1 : -1);
         _currentGeneratedGroundTile.transform.SetParent(transform);
         if (_sliceController.CurrentBackSideCube != null)
         {
             _currentGeneratedGroundTile.transform.localScale = 
                 _sliceController.CurrentBackSideCube.transform.localScale;
+            _currentGeneratedGroundTile.SetYoyoTarget(generationPosition.x);
             _currentGeneratedGroundTile.SetYoyoMovementStatus(true);
         }
+        _generatedTileCount++;
         return _currentGeneratedGroundTile;
     }
 }

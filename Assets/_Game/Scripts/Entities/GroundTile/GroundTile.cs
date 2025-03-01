@@ -7,6 +7,8 @@ public class GroundTile : MonoBehaviour
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private TileYoyoMovement tileYoyoMovement;
     public float Length => meshRenderer.bounds.size.z;
+    public float Width => meshRenderer.bounds.size.x;
+
     private Vector3 _defaultScale;
     private void Initialize()
     {
@@ -38,6 +40,8 @@ public class GroundTile : MonoBehaviour
         }
     }
 
+    public void SetYoyoTarget(float targetX) => tileYoyoMovement.SetYoyoTarget(targetX);
+
     // POOL Methods
 
     private Pool _pool;
@@ -52,7 +56,7 @@ public class GroundTile : MonoBehaviour
         _pool = pool;
     }
 
-    private void SetPosition(Vector3 position)
+    public void SetPosition(Vector3 position)
     {
         transform.position = position;
     }
