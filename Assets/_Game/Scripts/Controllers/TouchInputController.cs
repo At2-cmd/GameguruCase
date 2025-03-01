@@ -5,6 +5,7 @@ public class TouchInputController : MonoBehaviour, IInitializable
 {
     [Inject] private IGroundTileController _groundTileController;
     [Inject] private ISlicerController _sliceController;
+    [Inject] private IPlayerController _playerController;
     public void Initialize()
     {
         _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
@@ -15,6 +16,7 @@ public class TouchInputController : MonoBehaviour, IInitializable
         {
             _sliceController.Slice();
             _groundTileController.CurrentGroundTile.SetYoyoMovementStatus(false);
+            _playerController.MovePlayerToLastTile(_groundTileController.CurrentGroundTile.transform.position);
             _sliceController.AssignBackSideCube(_groundTileController.CurrentGroundTile);
             _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
         }

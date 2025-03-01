@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PlayerController : MonoBehaviour, IInitializable
+public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
 {
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerAnimation playerAnimation;
@@ -31,7 +31,12 @@ public class PlayerController : MonoBehaviour, IInitializable
 
     private void OnGameStartedHandler()
     {
-        playerMovement.SetMovementStatus(true);
         playerAnimation.PlayAnim(AnimationState.Run);
+    }
+
+    public void MovePlayerToLastTile(Vector3 lastTilePosition)
+    {
+        playerAnimation.PlayAnim(AnimationState.Run);
+        playerMovement.Move(lastTilePosition, () => playerAnimation.PlayAnim(AnimationState.Idle));
     }
 }
