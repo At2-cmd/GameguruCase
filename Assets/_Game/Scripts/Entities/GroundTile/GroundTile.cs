@@ -47,6 +47,7 @@ public class GroundTile : MonoBehaviour
     private Pool _pool;
     public void Despawn()
     {
+        if (!gameObject.activeSelf) return;
         OnDespawned();
         _pool.Despawn(this);
     }

@@ -21,22 +21,28 @@ public class PlayerController : MonoBehaviour, IInitializable, IPlayerController
     }
     private void Subscribe()
     {
-        EventController.Instance.OnGameStarted += OnGameStartedHandler;
+        EventController.Instance.OnLevelProceedButtonClicked += OnLevelProceedButtonClickedHandler;
     }
 
     private void Unsubscribe()
     {
-        EventController.Instance.OnGameStarted -= OnGameStartedHandler;
+        EventController.Instance.OnLevelProceedButtonClicked -= OnLevelProceedButtonClickedHandler;
     }
 
-    private void OnGameStartedHandler()
+    private void OnLevelProceedButtonClickedHandler()
     {
-        playerAnimation.PlayAnim(AnimationState.Run);
+        PlayAnim(AnimationState.Idle);
+        transform.position = Vector3.zero;
     }
 
     public void MovePlayerToLastTile(Vector3 lastTilePosition)
     {
-        playerAnimation.PlayAnim(AnimationState.Run);
-        playerMovement.Move(lastTilePosition, () => playerAnimation.PlayAnim(AnimationState.Idle));
+        PlayAnim(AnimationState.Run);
+        playerMovement.Move(lastTilePosition, () => PlayAnim(AnimationState.Idle));
+    }
+
+    public void PlayAnim(AnimationState animState)
+    {
+        playerAnimation.PlayAnim(animState);
     }
 }

@@ -10,7 +10,8 @@ public class PlayerAnimation : MonoBehaviour
     {
         { AnimationState.Idle, Animator.StringToHash("Idle") },
         { AnimationState.Run, Animator.StringToHash("Run") },
-        { AnimationState.Dance, Animator.StringToHash("Dance") }
+        { AnimationState.Dance, Animator.StringToHash("Dance") },
+        { AnimationState.Fall, Animator.StringToHash("Fall") }
     };
 
     public void Initialize() { }
@@ -37,5 +38,6 @@ public enum AnimationState
 {
     Idle,
     Run,
-    Dance
+    Dance,
+    Fall
 }
