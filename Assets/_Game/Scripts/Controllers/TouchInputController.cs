@@ -5,6 +5,7 @@ using Zenject;
 public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputController
 {
     [Inject] IGameManager _gameManager;
+    [Inject] AudioSystem _audioSystem;
     [Inject] private IGroundTileController _groundTileController;
     [Inject] private ISlicerController _sliceController;
     [Inject] private IPlayerController _playerController;
@@ -24,9 +25,11 @@ public class TouchInputController : MonoBehaviour, IInitializable, ITouchInputCo
                 CanUserGiveInput = false;
                 return;
             }
+            _audioSystem.Play(_audioSystem.GetAudioLibrary().NoteSound);
+
             _groundTileController.CurrentGroundTile.SetYoyoMovementStatus(false);
-            _playerController.MovePlayerToPosition(_groundTileController.CurrentGroundTile.transform.position,
-                () => _playerController.PlayAnim(AnimationState.Idle));
+            _playerController.MovePlayerToPosition(_groundTileController.CurrentGroundTile.transform.position,() => _playerController.PlayAnim(AnimationState.Idle));
+
             _sliceController.AssignBackSideCube(_groundTileController.CurrentGroundTile);
             _sliceController.AssignForwardSideCube(_groundTileController.GenerateGroundTile());
         }
