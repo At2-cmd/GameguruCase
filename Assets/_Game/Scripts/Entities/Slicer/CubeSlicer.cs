@@ -8,7 +8,7 @@ public class CubeSlicer : MonoBehaviour
     [Inject] GroundTile.Pool groundTilePool;
     private Transform frontCube;
     private Transform backCube;
-    private const float PerfectMatchThreshold = 0.05f;
+    private const float PerfectMatchThreshold = 0.1f;
 
     public Transform BackSideCube => backCube;
     public Transform ForwardSideCube => frontCube;
@@ -39,11 +39,13 @@ public class CubeSlicer : MonoBehaviour
         {
             // Perfect match: Snap the front cube to align with the back cube
             _audioSystem.Play(_audioSystem.GetAudioLibrary().NoteSound);
+            _audioSystem.GetAudioLibrary().NoteSound.SoundIndex++;
             frontCube.position = new Vector3(backCube.position.x, frontCube.position.y, frontCube.position.z);
             frontCube.localScale = new Vector3(backCube.localScale.x, frontCube.localScale.y, frontCube.localScale.z);
             Debug.Log("Perfect match detected. Aligning cubes.");
             return true;
         }
+        _audioSystem.GetAudioLibrary().NoteSound.SoundIndex = 0;
         _audioSystem.Play(_audioSystem.GetAudioLibrary().SliceSound);
 
         if (overlapSize > 0)

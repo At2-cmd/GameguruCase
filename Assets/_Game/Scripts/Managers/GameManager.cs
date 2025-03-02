@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +10,21 @@ public class GameManager : MonoBehaviour, IInitializable, IGameManager
     [Inject] IPlayerController _playerController;
     public void Initialize()
     {
-        Debug.Log("GameManager initialized");
+        Subscribe();
+    }
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
+    private void Subscribe()
+    {
+        EventController.Instance.OnLevelProceedButtonClicked += OnLevelProceedButtonClickedHandler;
+    }
+    private void Unsubscribe()
+    {
+        EventController.Instance.OnLevelProceedButtonClicked -= OnLevelProceedButtonClickedHandler;
+
     }
 
     public void OnGameFailed()
@@ -34,5 +49,10 @@ public class GameManager : MonoBehaviour, IInitializable, IGameManager
         DOVirtual.DelayedCall(2, _uiController.ShowLevelCompletedPopup);
         _playerController.PlayAnim(AnimationState.Dance);
         _playerController.RotateCamReferencePoint();
+    }
+
+    private void OnLevelProceedButtonClickedHandler()
+    {
+        _audioSystem.GetAudioLibrary().NoteSound.SoundIndex = 0;
     }
 }

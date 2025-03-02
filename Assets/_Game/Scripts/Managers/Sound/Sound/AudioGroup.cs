@@ -12,14 +12,14 @@ public class AudioGroup : ScriptableObject
     public int IncrementalPitchSteps;
     public float IncrementalPitchCountDown;
 
-    private int _soundIndex = -1;
+    public int SoundIndex;
     private float _lastPlaytime;
     private int _playCount;
 
     public AudioClip GetClip()
     {
-        _soundIndex = (_soundIndex + 1) % AudioClips.Length;
-        return AudioClips[_soundIndex];
+        SoundIndex = (SoundIndex) % AudioClips.Length;
+        return AudioClips[SoundIndex];
     }
 
     public float GetVolume()
