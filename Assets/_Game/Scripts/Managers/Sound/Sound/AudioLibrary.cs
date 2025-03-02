@@ -7,4 +7,5 @@ public class AudioLibrary : ScriptableObject
     public AudioGroup NoteSound;
     public AudioGroup SuccessSound;
     public AudioGroup FailSound;
+    public AudioGroup SliceSound;
 }

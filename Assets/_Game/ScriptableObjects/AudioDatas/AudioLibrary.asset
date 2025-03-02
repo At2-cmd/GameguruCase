@@ -16,3 +16,4 @@ MonoBehaviour:
   NoteSound: {fileID: 11400000, guid: 520e3ba448cc45141bbf55e8ae208333, type: 2}
   SuccessSound: {fileID: 11400000, guid: ac450c586cbbc784a83428d9dc1f8d2e, type: 2}
   FailSound: {fileID: 11400000, guid: 5de2dd26a53df07439bb986d8619e13c, type: 2}
+  SliceSound: {fileID: 11400000, guid: 266f41ee366feba4682fc35aada50913, type: 2}

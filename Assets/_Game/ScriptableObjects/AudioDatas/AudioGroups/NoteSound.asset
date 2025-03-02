@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2eb33c680377cb4cb90638205e6b1fe, type: 3}
-  m_Name: Notes
+  m_Name: NoteSound
   m_EditorClassIdentifier: 
   AudioClips:
   - {fileID: 8300000, guid: fbe9044c3b2524c43bf2beadc756a675, type: 3}

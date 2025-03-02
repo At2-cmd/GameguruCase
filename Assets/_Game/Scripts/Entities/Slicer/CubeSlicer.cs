@@ -4,9 +4,12 @@ using Zenject;
 
 public class CubeSlicer : MonoBehaviour
 {
+    [Inject] AudioSystem _audioSystem;
     [Inject] GroundTile.Pool groundTilePool;
     private Transform frontCube;
     private Transform backCube;
+    private const float PerfectMatchThreshold = 0.05f;
+
     public Transform BackSideCube => backCube;
     public Transform ForwardSideCube => frontCube;
 
@@ -30,6 +33,18 @@ public class CubeSlicer : MonoBehaviour
         float overlapStart = Mathf.Max(frontXMin, backXMin);
         float overlapEnd = Mathf.Min(frontXMax, backXMax);
         float overlapSize = overlapEnd - overlapStart;
+        float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
+
+        if (excessSize <= PerfectMatchThreshold)
+        {
+            // Perfect match: Snap the front cube to align with the back cube
+            _audioSystem.Play(_audioSystem.GetAudioLibrary().NoteSound);
+            frontCube.position = new Vector3(backCube.position.x, frontCube.position.y, frontCube.position.z);
+            frontCube.localScale = new Vector3(backCube.localScale.x, frontCube.localScale.y, frontCube.localScale.z);
+            Debug.Log("Perfect match detected. Aligning cubes.");
+            return true;
+        }
+        _audioSystem.Play(_audioSystem.GetAudioLibrary().SliceSound);
 
         if (overlapSize > 0)
         {
@@ -40,7 +55,7 @@ public class CubeSlicer : MonoBehaviour
         }
         else
         {
-            Debug.Log("No overlap detected. Slicing and making the front cube fall.");
+            //No overlap detected. Slicing and making the front cube fall.
             CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, 0);
             frontCube.localScale = Vector3.zero;
             return false;
@@ -52,7 +67,6 @@ public class CubeSlicer : MonoBehaviour
         if (overlapSize > 0)
         {
             float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
-
             if (excessSize > 0.01f)
             {
                 float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
@@ -66,7 +80,6 @@ public class CubeSlicer : MonoBehaviour
         {
             float slicedSize = Mathf.Abs(frontXMax - frontXMin);
             GroundTile slicedPart = groundTilePool.Spawn(new Vector3((frontXMin + frontXMax) / 2, frontCube.position.y, frontCube.position.z));
-
             slicedPart.transform.localScale = new Vector3(slicedSize, frontCube.localScale.y, frontCube.localScale.z);
             slicedPart.SetRigidBodyKinematicStatus(false);
 
