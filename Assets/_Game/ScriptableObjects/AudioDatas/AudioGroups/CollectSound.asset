@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2eb33c680377cb4cb90638205e6b1fe, type: 3}
-  m_Name: PinSound
+  m_Name: CollectSound
   m_EditorClassIdentifier: 
   AudioClips:
-  - {fileID: 8300000, guid: 6c42a760d030c3943bc0157c49e05b24, type: 3}
+  - {fileID: 8300000, guid: 8732066c702681541bbd07febb2be05d, type: 3}
   PitchMin: 1
   PitchMax: 1
   VolMin: 1
@@ -21,3 +21,4 @@ MonoBehaviour:
   CooldownDuration: 0.1
   IncrementalPitchSteps: 0
   IncrementalPitchCountDown: 0
+  SoundIndex: 0

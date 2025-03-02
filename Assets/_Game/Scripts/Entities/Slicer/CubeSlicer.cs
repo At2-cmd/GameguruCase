@@ -38,68 +38,70 @@ public class CubeSlicer : MonoBehaviour
 
         if (excessSize <= PerfectMatchThreshold)
         {
-            // Perfect match: Snap the front cube to align with the back cube
-            _audioSystem.Play(_audioSystem.GetAudioLibrary().NoteSound);
-            _audioSystem.GetAudioLibrary().NoteSound.SoundIndex++;
-            frontCube.position = new Vector3(backCube.position.x, frontCube.position.y, frontCube.position.z);
-            frontCube.localScale = new Vector3(backCube.localScale.x, frontCube.localScale.y, frontCube.localScale.z);
-            perfectMatchFeedbackPool.Spawn(frontCube.position).transform.localScale = frontCube.localScale;
-            Debug.Log("Perfect match detected. Aligning cubes.");
+            HandlePerfectMatch();
             return true;
         }
+
         _audioSystem.GetAudioLibrary().NoteSound.SoundIndex = 0;
         _audioSystem.Play(_audioSystem.GetAudioLibrary().SliceSound);
 
         if (overlapSize > 0)
         {
-            frontCube.position = new Vector3(overlapStart + overlapSize / 2, frontCube.position.y, frontCube.position.z);
-            frontCube.localScale = new Vector3(overlapSize, frontCube.localScale.y, frontCube.localScale.z);
-            CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, overlapSize);
+            AdjustFrontCube(overlapStart, overlapSize);
+            CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax);
             return true;
         }
         else
         {
-            //No overlap detected. Slicing and making the front cube fall.
-            CreateExcessPart(frontXMin, frontXMax, backXMin, backXMax, 0);
-            frontCube.localScale = Vector3.zero;
+            HandleNoOverlap(frontXMin, frontXMax);
             return false;
         }
     }
 
-    void CreateExcessPart(float frontXMin, float frontXMax, float backXMin, float backXMax, float overlapSize)
+    private void HandlePerfectMatch()
     {
-        if (overlapSize > 0)
-        {
-            float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
-            if (excessSize > 0.01f)
-            {
-                float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
+        _audioSystem.Play(_audioSystem.GetAudioLibrary().NoteSound);
+        _audioSystem.GetAudioLibrary().NoteSound.SoundIndex++;
+        frontCube.position = new Vector3(backCube.position.x, frontCube.position.y, frontCube.position.z);
+        frontCube.localScale = new Vector3(backCube.localScale.x, frontCube.localScale.y, frontCube.localScale.z);
+        perfectMatchFeedbackPool.Spawn(frontCube.position).transform.localScale = frontCube.localScale;
+    }
 
-                GroundTile excessTile = groundTilePool.Spawn(new Vector3(excessX, frontCube.position.y, frontCube.position.z));
-                excessTile.transform.localScale = new Vector3(excessSize, frontCube.localScale.y, frontCube.localScale.z);
-                excessTile.SetRigidBodyKinematicStatus(false);
-            }
-        }
-        else
-        {
-            float slicedSize = Mathf.Abs(frontXMax - frontXMin);
-            GroundTile slicedPart = groundTilePool.Spawn(new Vector3((frontXMin + frontXMax) / 2, frontCube.position.y, frontCube.position.z));
-            slicedPart.transform.localScale = new Vector3(slicedSize, frontCube.localScale.y, frontCube.localScale.z);
-            slicedPart.SetRigidBodyKinematicStatus(false);
+    private void AdjustFrontCube(float overlapStart, float overlapSize)
+    {
+        frontCube.position = new Vector3(overlapStart + overlapSize / 2, frontCube.position.y, frontCube.position.z);
+        frontCube.localScale = new Vector3(overlapSize, frontCube.localScale.y, frontCube.localScale.z);
+    }
 
-            Rigidbody rb = slicedPart.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.useGravity = true;
-            }
+    private void CreateExcessPart(float frontXMin, float frontXMax, float backXMin, float backXMax)
+    {
+        float excessSize = Mathf.Abs(frontXMax - backXMax) > 0.01f ? Mathf.Abs(frontXMax - backXMax) : Mathf.Abs(frontXMin - backXMin);
+        if (excessSize > 0.01f)
+        {
+            float excessX = (frontXMax > backXMax) ? frontXMax - excessSize / 2 : frontXMin + excessSize / 2;
+            SpawnFallingExcessPart(excessX, excessSize);
         }
+    }
+
+    private void SpawnFallingExcessPart(float positionX, float sizeX)
+    {
+        GroundTile excessTile = groundTilePool.Spawn(new Vector3(positionX, frontCube.position.y, frontCube.position.z));
+        excessTile.transform.localScale = new Vector3(sizeX, frontCube.localScale.y, frontCube.localScale.z);
+        excessTile.SetRigidBodyKinematicStatus(false);
+    }
+
+    private void HandleNoOverlap(float frontXMin, float frontXMax)
+    {
+        float slicedSize = Mathf.Abs(frontXMax - frontXMin);
+        SpawnFallingExcessPart((frontXMin + frontXMax) / 2, slicedSize);
+        frontCube.localScale = Vector3.zero;
     }
 
     public void SetBackSideCube(GroundTile backSideCube)
     {
         backCube = backSideCube.transform;
     }
+
     public void SetForwardSideCube(GroundTile forwardSideCube)
     {
         frontCube = forwardSideCube.transform;

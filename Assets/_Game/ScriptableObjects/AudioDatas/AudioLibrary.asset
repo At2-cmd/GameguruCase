@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe2f63034d3d7a4fbd5477223053bd5, type: 3}
   m_Name: AudioLibrary
   m_EditorClassIdentifier: 
-  PinSound: {fileID: 11400000, guid: 3f69d09a7516d0040aeb6f745263c7d1, type: 2}
+  CollectSound: {fileID: 11400000, guid: 3f69d09a7516d0040aeb6f745263c7d1, type: 2}
   NoteSound: {fileID: 11400000, guid: 520e3ba448cc45141bbf55e8ae208333, type: 2}
   SuccessSound: {fileID: 11400000, guid: ac450c586cbbc784a83428d9dc1f8d2e, type: 2}
   FailSound: {fileID: 11400000, guid: 5de2dd26a53df07439bb986d8619e13c, type: 2}

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 2008272209988534671}
-  fadeOutDuration: 0.5
+  fadeOutDuration: 1
 --- !u!1 &5014001925370589036
 GameObject:
   m_ObjectHideFlags: 0
