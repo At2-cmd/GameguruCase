@@ -5,6 +5,7 @@ public class PoolInstaller : MonoInstaller
 {
     [SerializeField] private StarExplosionParticle starParticlePrefab;
     [SerializeField] private GroundTile groundTilePrefab;
+    [SerializeField] private PerfectMatchFeedback perfectMatchFeedbackPrefab;
     public override void InstallBindings()
     {
         
@@ -19,5 +20,11 @@ public class PoolInstaller : MonoInstaller
                 .ExpandByDoubling()
                 .FromComponentInNewPrefab(groundTilePrefab)
                 .UnderTransformGroup("GroundTiles");
+        
+        Container.BindMemoryPool<PerfectMatchFeedback, PerfectMatchFeedback.Pool>()
+                .WithInitialSize(3)
+                .ExpandByDoubling()
+                .FromComponentInNewPrefab(perfectMatchFeedbackPrefab)
+                .UnderTransformGroup("PerfectMatchFeedbackPrefabs");
     }
 }

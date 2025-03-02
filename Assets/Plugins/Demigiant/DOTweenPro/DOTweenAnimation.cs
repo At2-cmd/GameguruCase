@@ -280,7 +280,7 @@ namespace DG.Tweening
                 case TargetType.Light:
                     tween = ((Light)target).DOColor(endValueColor, duration);
                     break;
-#if false // SPRITE_MARKER
+#if true // SPRITE_MARKER
                 case TargetType.SpriteRenderer:
                     tween = ((SpriteRenderer)target).DOColor(endValueColor, duration);
                     break;
@@ -320,7 +320,7 @@ namespace DG.Tweening
                 case TargetType.Light:
                     tween = ((Light)target).DOIntensity(endValueFloat, duration);
                     break;
-#if false // SPRITE_MARKER
+#if true // SPRITE_MARKER
                 case TargetType.SpriteRenderer:
                     tween = ((SpriteRenderer)target).DOFade(endValueFloat, duration);
                     break;

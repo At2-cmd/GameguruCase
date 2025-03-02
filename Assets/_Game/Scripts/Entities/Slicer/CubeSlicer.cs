@@ -6,6 +6,7 @@ public class CubeSlicer : MonoBehaviour
 {
     [Inject] AudioSystem _audioSystem;
     [Inject] GroundTile.Pool groundTilePool;
+    [Inject] PerfectMatchFeedback.Pool perfectMatchFeedbackPool;
     private Transform frontCube;
     private Transform backCube;
     private const float PerfectMatchThreshold = 0.1f;
@@ -42,6 +43,7 @@ public class CubeSlicer : MonoBehaviour
             _audioSystem.GetAudioLibrary().NoteSound.SoundIndex++;
             frontCube.position = new Vector3(backCube.position.x, frontCube.position.y, frontCube.position.z);
             frontCube.localScale = new Vector3(backCube.localScale.x, frontCube.localScale.y, frontCube.localScale.z);
+            perfectMatchFeedbackPool.Spawn(frontCube.position).transform.localScale = frontCube.localScale;
             Debug.Log("Perfect match detected. Aligning cubes.");
             return true;
         }
